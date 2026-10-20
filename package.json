@@ -1,0 +1,36 @@
+{
+  "name": "flared-object",
+  "version": "1.0.0",
+  "description": "Edge CDN + Security Gateway for R2/S3 storage — deployable as Workers & Pages",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "dev:worker": "pnpm --filter @ceefex/worker dev",
+    "dev:pages": "pnpm --filter @ceefex/pages dev",
+    "deploy:worker": "pnpm --filter @ceefex/worker deploy",
+    "deploy:worker:preview": "pnpm --filter @ceefex/worker deploy:preview",
+    "deploy:pages": "pnpm --filter @ceefex/pages deploy",
+    "deploy:pages:preview": "pnpm --filter @ceefex/pages deploy:preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.10.1",
+      "onFail": "download"
+    }
+  },
+  "packageManager": "pnpm@12.10.1",
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.23.15",
+    "turbo": "^2.5.4",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.149.0"
+  }
+}

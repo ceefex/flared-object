@@ -1,0 +1,16 @@
+{
+  "name": "@ceefex/pages",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@ceefex/core": "workspace:*"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "build": "wrangler pages functions build functions",
+    "dev": "wrangler pages dev public --compatibility-date=2026-10-09 --r2=MEDIA_BUCKET",
+    "deploy": "wrangler pages deploy public",
+    "deploy:preview": "wrangler pages deploy public --branch preview"
+  }
+}
