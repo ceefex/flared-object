@@ -5,7 +5,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "postinstall": "turbo run build --filter=@ceefex/ui --filter=@ceefex/core",
+    "postinstall": "turbo run build --filter=@ceefex/ui --filter=@ceefex/core && pnpm --filter @ceefex/worker types",
     "build": "turbo run build",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
