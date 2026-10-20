@@ -1,7 +1,0 @@
-$ vite build
-[36mvite v8.3.4 [32mbuilding ssr environment for production...[36m[39m
-[2K[32m✓[0m 6 modules transformed.
-[2Krendering chunks (1)...[2Kcomputing gzip size...
-[2K[2mdist/[0m[36mmedia-error-page.js  [0m[1;2m38.75 kB[0m[2m │ gzip: 8.52 kB[0m
-
-[32m✓ built in 175ms[39m
