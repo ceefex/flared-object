@@ -31,9 +31,31 @@ Configure via `SECURITY_MODE` environment variable:
 
 ### Signed URL
 
-Set `HMAC_SECRET` via `wrangler secret put HMAC_SECRET`.
+Generate a strong random secret (32 bytes / 256 bits) with OpenSSL:
+
+```bash
+openssl rand -hex 32
+```
+
+Copy the output and store it as a secret, not as a plain environment variable or in source control. For a Cloudflare Worker, run this from the repository root and paste the generated value when prompted:
+
+```bash
+pnpm --filter @ceefex/worker exec wrangler secret put HMAC_SECRET
+```
+
+For the named Worker `preview` environment, set its secret separately:
+
+```bash
+pnpm --filter @ceefex/worker exec wrangler secret put HMAC_SECRET --env preview
+```
+
+For Cloudflare Pages, add `HMAC_SECRET` as a secret in the Pages project's environment settings. Configure it separately for Production and Preview as needed. Use the same secret for URL generation and validation in each environment, and never expose it to browsers or include it in a URL.
 
 URL format: `/path/to/file.jpg?token=<hmac>&expires=<unix_ts>`
+
+`expires` is a Unix timestamp in seconds: the number of seconds since 1970-01-01 UTC at which the URL expires. When `generateSignedUrl` creates a URL, it calculates this as the current system time plus the requested lifetime (`ttlSeconds`). The URL generator includes both `expires` and an HMAC signature of the path and expiry time; the Worker or Pages Function checks the timestamp against its current time and recomputes the signature using `HMAC_SECRET` on each request.
+
+This is stateless: no issuance or expiry record is stored in a database. The expiry timestamp travels in the URL, and the signature prevents changing it without the secret. A valid URL can be reused until it expires; to revoke URLs earlier, rotate the secret (which invalidates URLs signed with the old secret). Ensure the system generating URLs and the Cloudflare runtime have reasonably accurate clocks.
 
 ### Referer Protection
 
