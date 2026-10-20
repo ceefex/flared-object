@@ -4,3 +4,6 @@ dist
 .turbo
 worker-configuration.d.ts
 *.tsbuildinfo
+temp
+apps/worker/wrangler.deploy.jsonc
+.env

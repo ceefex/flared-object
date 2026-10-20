@@ -59,12 +59,47 @@ This is stateless: no issuance or expiry record is stored in a database. The exp
 
 ### Referer Protection
 
-Set `ALLOWED_REFERERS` as a JSON array:
+Set the runtime variable `ALLOWED_REFERERS` as a JSON array in the Cloudflare Worker or Pages project settings:
 ```json
 ["example.com", "*.example.com"]
 ```
 
 ## Deploy
+
+Build/deploy configuration and runtime configuration have separate responsibilities. Build variables are used by the Worker build step (`scripts/build/index.ts`) to select deployment resources; they are not application runtime variables. Runtime variables and secrets are configured in Cloudflare and are not generated into the Worker config.
+
+### Build-time variables
+
+For local Worker deployment, copy `.env.example` to `.env` in the repository root and replace the sample resource names. In CI, define these as build variables:
+
+| Variable | Purpose |
+|----------|---------|
+| `DEPLOY_WORKER_NAME` | Production Worker name |
+| `DEPLOY_WORKER_PREVIEW_NAME` | Named preview Worker name |
+| `DEPLOY_R2_BUCKET_NAME` | Production R2 bucket name |
+| `DEPLOY_R2_PREVIEW_BUCKET_NAME` | Named preview environment R2 bucket |
+| `DEPLOY_R2_BUILDS_PREVIEW_BUCKET_NAME` | Workers Builds Preview R2 bucket |
+| `DEPLOY_R2_LOCAL_BUCKET_NAME` | Local development R2 simulation name |
+
+These values are consumed during the build step (`scripts/build/index.ts`, invoked as the Worker's `build` script) and written to `apps/worker/wrangler.deploy.jsonc` (Worker name and R2 resource names). This serves as the Worker build step in Cloudflare Workers CI / Workers Builds. The root `.env` is for local use and ignored by Git; CI environment variables take precedence over values from `.env`. Do not put secrets in `.env.example` or in build variables.
+
+### Build-time secrets
+
+CI deployment credentials are build secrets, not application runtime secrets. If deployment runs in CI, provide a Cloudflare API token (with only the permissions required to deploy the Worker) using that CI platform's secret store, commonly named `CLOUDFLARE_API_TOKEN`. Never commit it or put it in `.env.example`.
+
+### Runtime variables and secrets
+
+Set these on the Cloudflare Worker project, separately for Production and the named `preview` environment as appropriate:
+
+| Runtime setting | Type | Purpose |
+|-----------------|------|---------|
+| `SECURITY_MODE` | Variable | `none`, `signed-url`, `referer`, or `signed-url+referer` |
+| `ALLOWED_REFERERS` | Variable | JSON array of allowed referer hostnames, for example `["example.com", "*.example.com"]` |
+| `HMAC_SECRET` | Secret | HMAC key required for signed URL modes |
+
+The generated Worker config sets `keep_vars` so deployment preserves runtime variables configured in Cloudflare instead of replacing them with build-time values. Add `HMAC_SECRET` as a Cloudflare Worker secret (for example with `wrangler secret put`); never expose it in build output.
+
+Cloudflare Pages does not use a Wrangler configuration file in this project. Set its R2 binding, runtime variables (`SECURITY_MODE`, `ALLOWED_REFERERS`), and runtime secret (`HMAC_SECRET`) in the Pages dashboard, independently for Production and Preview as appropriate.
 
 ```bash
 pnpm deploy:worker          # Deploy Worker

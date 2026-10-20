@@ -9,10 +9,10 @@
   "scripts": {
     "types": "wrangler types",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "build": "wrangler deploy --dry-run --env=\"\"",
+    "build": "tsx ../../scripts/build/index.ts",
     "dev": "wrangler dev",
     "dev:preview": "wrangler dev --env preview",
-    "deploy": "wrangler deploy --env=\"\"",
-    "deploy:preview": "wrangler deploy --env preview"
+    "deploy": "pnpm build && wrangler deploy --config wrangler.deploy.jsonc --env=\"\"",
+    "deploy:preview": "pnpm build && wrangler deploy --config wrangler.deploy.jsonc --env preview"
   }
 }
