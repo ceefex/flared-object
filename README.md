@@ -66,6 +66,12 @@ Set the runtime variable `ALLOWED_REFERERS` as a JSON array in the Cloudflare Wo
 
 ## Deploy
 
+When importing via Git to Cloudflare Workers (Workers Builds), the CI/CD pipeline separates build and deploy into two distinct steps:
+1. **Build Step (`pnpm build`)**: Executes `scripts/build/index.ts`, generating `apps/worker/wrangler.deploy.jsonc` from build-time environment variables.
+2. **Deploy Step (`pnpm deploy:worker`)**: Runs `wrangler deploy --config wrangler.deploy.jsonc` to deploy the Worker.
+
+The `.env` file is strictly for local development and local type checking/testing. In Cloudflare Git Import CI, all build variables are injected directly via Cloudflare's Build environment variables.
+
 Build/deploy configuration and runtime configuration have separate responsibilities. Build variables are used by the Worker build step (`scripts/build/index.ts`) to select deployment resources; they are not application runtime variables. Runtime variables and secrets are configured in Cloudflare and are not generated into the Worker config.
 
 ### Build-time variables
