@@ -1,0 +1,52 @@
+name: Publish @ceefex/flared-object-client to npm
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to publish (e.g. 0.2.0). Leave empty to use package.json version."
+        required: false
+        default: ""
+  push:
+    tags:
+      - "client-v*.*.*"
+
+jobs:
+  publish:
+    name: Build & Publish to npmjs
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: "pnpm"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Set custom version (if provided)
+        if: ${{ github.event.inputs.version != '' }}
+        run: npm version ${{ github.event.inputs.version }} --no-git-tag-version
+        working-directory: packages/client
+
+      - name: Build client SDK
+        run: pnpm --filter @ceefex/flared-object-client build
+
+      - name: Run tests
+        run: pnpm --filter @ceefex/flared-object-client test
+
+      - name: Publish to npm (OIDC Trusted Publishing)
+        run: pnpm --filter @ceefex/flared-object-client publish --no-git-checks --access public
+        env:
+          NPM_CONFIG_PROVENANCE: "true"

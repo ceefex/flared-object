@@ -1,0 +1,9 @@
+# Source & config (dist/ is included via "files" in package.json)
+src/
+test/
+tsconfig.json
+tsup.config.ts
+
+# Dev artifacts
+.turbo/
+*.tsbuildinfo
