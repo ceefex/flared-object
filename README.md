@@ -10,7 +10,7 @@
 - **Security Layer** — Signed URLs (HMAC-SHA256), Referer/Origin whitelisting, Hotlink protection
 - **Dual Runtime** — Deploy as Workers (via `wrangler.jsonc`) or Pages (via Dashboard + Functions)
 - **Storage Driver Abstraction** — Currently R2 binding, future support for S3-compatible (B2, AWS, MinIO)
-- **Modular Monorepo** — Turborepo-powered with shared `@ceefex/flared-object-core` and `@ceefex/flared-object-ui`
+- **Modular Monorepo** — Turborepo-powered with shared `@ceefex/flared-object-core`, `@ceefex/flared-object-ui`, and `@ceefex/flared-object-client`
 
 ## Quick Start
 

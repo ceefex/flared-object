@@ -1,0 +1,45 @@
+{
+  "name": "@ceefex/flared-object-client",
+  "version": "0.1.0",
+  "description": "Lightweight, zero-dependency client SDK for flared-object edge storage gateway",
+  "keywords": [
+    "r2",
+    "s3",
+    "cloudflare",
+    "edge",
+    "cdn",
+    "hmac",
+    "signed-url",
+    "security"
+  ],
+  "license": "MIT",
+  "author": "Ceefex",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test test/**/*.test.ts"
+  },
+  "devDependencies": {
+    "@ceefex/flared-object-core": "workspace:*",
+    "@types/node": "^24.0.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.9.3"
+  }
+}
