@@ -66,51 +66,76 @@ Set the runtime variable `ALLOWED_REFERERS` as a JSON array in the Cloudflare Wo
 
 ## Deploy
 
-When importing via Git to Cloudflare Workers (Workers Builds), the CI/CD pipeline separates build and deploy into two distinct steps:
-1. **Build Step (`pnpm build`)**: Executes `scripts/build/index.ts`, generating `apps/worker/wrangler.deploy.jsonc` from build-time environment variables.
+This project supports two Cloudflare runtime targets: **Standalone Worker** and **Cloudflare Pages**. Both can be deployed automatically via Git or manually via CLI.
+
+### 1. Cloudflare Worker (via Workers Builds / GitHub Import)
+
+The Cloudflare Workers Builds CI/CD pipeline separates build and deploy into two distinct steps:
+1. **Build Step (`pnpm build:worker`)**: Executes `scripts/build/index.ts`, generating `apps/worker/wrangler.deploy.jsonc` from build-time environment variables.
 2. **Deploy Step (`pnpm deploy:worker`)**: Runs `wrangler deploy --config wrangler.deploy.jsonc` to deploy the Worker.
 
-The `.env` file is strictly for local development and local type checking/testing. In Cloudflare Git Import CI, all build variables are injected directly via Cloudflare's Build environment variables.
+#### Cloudflare Dashboard Settings (Workers & Pages > Settings > Builds)
+- **Root directory**: `/`
+- **Build command**: `pnpm build:worker`
+- **Deploy command**: `pnpm deploy:worker`
+- **Preview / Version command**: `pnpm deploy:worker:preview`
 
-Build/deploy configuration and runtime configuration have separate responsibilities. Build variables are used by the Worker build step (`scripts/build/index.ts`) to select deployment resources; they are not application runtime variables. Runtime variables and secrets are configured in Cloudflare and are not generated into the Worker config.
-
-### Build-time variables
-
-For local Worker deployment, copy `.env.example` to `.env` in the repository root and replace the sample resource names. In CI, define these as build variables:
-
+#### Build-time Variables
+Configured under **Settings → Build variables**:
 | Variable | Purpose |
 |----------|---------|
-| `DEPLOY_WORKER_NAME` | Production Worker name |
-| `DEPLOY_WORKER_PREVIEW_NAME` | Named preview Worker name |
+| `DEPLOY_WORKER_NAME` | Production Worker name (e.g. `flared-object-media`) |
+| `DEPLOY_WORKER_PREVIEW_NAME` | Named preview Worker name (e.g. `flared-object-media-preview`) |
 | `DEPLOY_R2_BUCKET_NAME` | Production R2 bucket name |
 | `DEPLOY_R2_PREVIEW_BUCKET_NAME` | Named preview environment R2 bucket |
 | `DEPLOY_R2_BUILDS_PREVIEW_BUCKET_NAME` | Workers Builds Preview R2 bucket |
-| `DEPLOY_R2_LOCAL_BUCKET_NAME` | Local development R2 simulation name |
 
-These values are consumed during the build step (`scripts/build/index.ts`, invoked as the Worker's `build` script) and written to `apps/worker/wrangler.deploy.jsonc` (Worker name and R2 resource names). This serves as the Worker build step in Cloudflare Workers CI / Workers Builds. The root `.env` is for local use and ignored by Git; CI environment variables take precedence over values from `.env`. Do not put secrets in `.env.example` or in build variables.
-
-### Build-time secrets
-
-CI deployment credentials are build secrets, not application runtime secrets. If deployment runs in CI, provide a Cloudflare API token (with only the permissions required to deploy the Worker) using that CI platform's secret store, commonly named `CLOUDFLARE_API_TOKEN`. Never commit it or put it in `.env.example`.
-
-### Runtime variables and secrets
-
-Set these on the Cloudflare Worker project, separately for Production and the named `preview` environment as appropriate:
-
-| Runtime setting | Type | Purpose |
-|-----------------|------|---------|
+#### Runtime Variables & Secrets
+Configured under **Settings → Variables and secrets**:
+| Setting | Type | Purpose |
+|---------|------|---------|
 | `SECURITY_MODE` | Variable | `none`, `signed-url`, `referer`, or `signed-url+referer` |
 | `ALLOWED_REFERERS` | Variable | JSON array of allowed referer hostnames, for example `["example.com", "*.example.com"]` |
-| `HMAC_SECRET` | Secret | HMAC key required for signed URL modes |
+| `HMAC_SECRET` | Secret | HMAC secret key required for signed URL modes |
 
-The generated Worker config sets `keep_vars` so deployment preserves runtime variables configured in Cloudflare instead of replacing them with build-time values. Add `HMAC_SECRET` as a Cloudflare Worker secret (for example with `wrangler secret put`); never expose it in build output.
+---
 
-Cloudflare Pages does not use a Wrangler configuration file in this project. Set its R2 binding, runtime variables (`SECURITY_MODE`, `ALLOWED_REFERERS`), and runtime secret (`HMAC_SECRET`) in the Pages dashboard, independently for Production and Preview as appropriate.
+### 2. Cloudflare Pages (via Git Integration)
+
+Cloudflare Pages serves static assets from `apps/pages/public/` and executes Edge Functions from `apps/pages/functions/`.
+
+#### Cloudflare Dashboard Settings (Pages > Settings > Builds & deployments)
+- **Framework preset**: `None`
+- **Root directory**: `apps/pages`
+- **Build command**: `pnpm build` *(runs `wrangler pages functions build functions` to validate the TypeScript functions bundle)*
+- **Build output directory**: `public`
+
+> *Note: If Root Directory is set to `/` (repository root), use Build Command: `pnpm build:pages` and Output Directory: `apps/pages/public`.*
+
+#### Bindings & Variables in Pages Dashboard
+Configured under **Settings → Functions → Compatibility flags** & **Settings → Bindings**:
+1. **R2 Bucket Binding**:
+   - Binding name: `MEDIA_BUCKET` (select the R2 bucket for Production and Preview).
+2. **Environment Variables & Secrets**:
+   - `SECURITY_MODE`: `none`, `signed-url`, `referer`, or `signed-url+referer`
+   - `ALLOWED_REFERERS`: JSON array of allowed referer hostnames
+   - `HMAC_SECRET`: Secret key for HMAC signed URL validation
+
+---
+
+### 3. Manual Deployment via CLI
+
+To deploy directly from your local machine:
 
 ```bash
-pnpm deploy:worker          # Deploy Worker
-pnpm deploy:worker:preview  # Deploy Worker preview
-pnpm deploy:pages           # Deploy Pages
+# Worker
+pnpm build:worker           # Generate wrangler.deploy.jsonc
+pnpm deploy:worker          # Deploy production Worker
+pnpm deploy:worker:preview  # Deploy preview Worker
+
+# Pages
+pnpm build:pages            # Validate Pages functions bundle
+pnpm deploy:pages           # Deploy production Pages
 pnpm deploy:pages:preview   # Deploy Pages preview branch
 ```
 

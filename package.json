@@ -8,6 +8,7 @@
     "postinstall": "turbo run build --filter=@ceefex/flared-object-ui --filter=@ceefex/flared-object-core && pnpm --filter @ceefex/flared-object-worker types",
     "build": "turbo run build",
     "build:worker": "pnpm --filter @ceefex/flared-object-worker build",
+    "build:pages": "pnpm --filter @ceefex/flared-object-pages build",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "dev:worker": "pnpm --filter @ceefex/flared-object-worker dev",
