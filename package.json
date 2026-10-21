@@ -5,7 +5,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "postinstall": "turbo run build --filter=@ceefex/flared-object-ui --filter=@ceefex/flared-object-core && pnpm --filter @ceefex/flared-object-worker types",
+    "postinstall": "turbo run postinstall",
     "build": "turbo run build",
     "build:worker": "pnpm --filter @ceefex/flared-object-worker build",
     "build:pages": "pnpm --filter @ceefex/flared-object-pages build",

@@ -13,6 +13,7 @@
     "dev": "wrangler dev",
     "dev:preview": "wrangler dev --env preview",
     "deploy": "wrangler deploy --config wrangler.deploy.jsonc --env=\"\"",
-    "deploy:preview": "wrangler deploy --config wrangler.deploy.jsonc --env preview"
+    "deploy:preview": "wrangler deploy --config wrangler.deploy.jsonc --env preview",
+    "postinstall": "pnpm run types"
   }
 }

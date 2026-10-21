@@ -5,6 +5,10 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
+    "postinstall": {
+      "dependsOn": ["^postinstall"],
+      "cache": false
+    },
     "typecheck": {
       "dependsOn": ["^build"]
     },
