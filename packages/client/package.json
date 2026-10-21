@@ -14,6 +14,12 @@
   ],
   "license": "MIT",
   "author": "Ceefex",
+  "homepage": "https://github.com/ceefex/flared-object",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ceefex/flared-object.git",
+    "directory": "packages/client"
+  },
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
