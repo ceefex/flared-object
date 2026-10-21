@@ -2,6 +2,8 @@
 
 > **Edge CDN + Security Gateway** for R2/S3 storage, deployable as Cloudflare Workers or Pages.
 
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/ceefex/flared-object)
+
 ## Features
 
 - **CDN Caching** — Edge caching via Cloudflare Cache API with `Cache-Control`, `ETag`, `stale-while-revalidate`
@@ -69,6 +71,8 @@ Set the runtime variable `ALLOWED_REFERERS` as a JSON array in the Cloudflare Wo
 This project supports two Cloudflare runtime targets: **Standalone Worker** and **Cloudflare Pages**. Both can be deployed automatically via Git or manually via CLI.
 
 ### 1. Cloudflare Worker (via Workers Builds / GitHub Import)
+
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/ceefex/flared-object)
 
 The Cloudflare Workers Builds CI/CD pipeline separates build and deploy into two distinct steps:
 1. **Build Step (`pnpm build:worker`)**: Executes `scripts/build/index.ts`, generating `apps/worker/wrangler.deploy.jsonc` from build-time environment variables.
