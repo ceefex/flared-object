@@ -1,5 +1,5 @@
-import { handleRequest, R2BindingDriver } from "@ceefex/core";
-import type { SecurityConfig, SecurityMode } from "@ceefex/core";
+import { handleRequest, R2BindingDriver } from "@ceefex/flared-object-core";
+import type { SecurityConfig, SecurityMode } from "@ceefex/flared-object-core";
 
 declare global {
   interface Env {

@@ -184,19 +184,19 @@ importers:
 
   apps/pages:
     dependencies:
-      '@ceefex/core':
+      '@ceefex/flared-object-core':
         specifier: workspace:*
         version: link:../../packages/core
 
   apps/worker:
     dependencies:
-      '@ceefex/core':
+      '@ceefex/flared-object-core':
         specifier: workspace:*
         version: link:../../packages/core
 
   packages/core:
     dependencies:
-      '@ceefex/ui':
+      '@ceefex/flared-object-ui':
         specifier: workspace:*
         version: link:../ui
 

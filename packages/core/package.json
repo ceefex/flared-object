@@ -1,5 +1,5 @@
 {
-  "name": "@ceefex/core",
+  "name": "@ceefex/flared-object-core",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -11,9 +11,9 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "build": "pnpm --filter @ceefex/ui build && tsc -p tsconfig.json"
+    "build": "pnpm --filter @ceefex/flared-object-ui build && tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@ceefex/ui": "workspace:*"
+    "@ceefex/flared-object-ui": "workspace:*"
   }
 }

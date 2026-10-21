@@ -1,4 +1,4 @@
-import { renderMediaErrorPage } from "@ceefex/ui/media-error-page";
+import { renderMediaErrorPage } from "@ceefex/flared-object-ui/media-error-page";
 import type { ErrorDetail, StorageObject } from "../types/index.js";
 
 const CACHE_CONTROL =

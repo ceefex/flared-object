@@ -1,10 +1,10 @@
 {
-  "name": "@ceefex/worker",
+  "name": "@ceefex/flared-object-worker",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@ceefex/core": "workspace:*"
+    "@ceefex/flared-object-core": "workspace:*"
   },
   "scripts": {
     "types": "wrangler types",

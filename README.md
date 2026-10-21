@@ -8,7 +8,7 @@
 - **Security Layer** — Signed URLs (HMAC-SHA256), Referer/Origin whitelisting, Hotlink protection
 - **Dual Runtime** — Deploy as Workers (via `wrangler.jsonc`) or Pages (via Dashboard + Functions)
 - **Storage Driver Abstraction** — Currently R2 binding, future support for S3-compatible (B2, AWS, MinIO)
-- **Modular Monorepo** — Turborepo-powered with shared `@ceefex/core` and `@ceefex/ui`
+- **Modular Monorepo** — Turborepo-powered with shared `@ceefex/flared-object-core` and `@ceefex/flared-object-ui`
 
 ## Quick Start
 
@@ -40,13 +40,13 @@ openssl rand -hex 32
 Copy the output and store it as a secret, not as a plain environment variable or in source control. For a Cloudflare Worker, run this from the repository root and paste the generated value when prompted:
 
 ```bash
-pnpm --filter @ceefex/worker exec wrangler secret put HMAC_SECRET
+pnpm --filter @ceefex/flared-object-worker exec wrangler secret put HMAC_SECRET
 ```
 
 For the named Worker `preview` environment, set its secret separately:
 
 ```bash
-pnpm --filter @ceefex/worker exec wrangler secret put HMAC_SECRET --env preview
+pnpm --filter @ceefex/flared-object-worker exec wrangler secret put HMAC_SECRET --env preview
 ```
 
 For Cloudflare Pages, add `HMAC_SECRET` as a secret in the Pages project's environment settings. Configure it separately for Production and Preview as needed. Use the same secret for URL generation and validation in each environment, and never expose it to browsers or include it in a URL.
