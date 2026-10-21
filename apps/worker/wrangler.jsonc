@@ -22,7 +22,9 @@
     // Security mode: "none" | "signed-url" | "referer" | "signed-url+referer"
     "SECURITY_MODE": "none",
     // JSON array of allowed referer hostnames (supports *.example.com wildcards)
-    "ALLOWED_REFERERS": "[]"
+    "ALLOWED_REFERERS": "[]",
+    // JSON array of path wildcard patterns to bypass security check (e.g. public covers/banners)
+    "EXCLUDE_PATHS": "[\"*/cover-*\", \"*/banner-*\"]"
     // HMAC_SECRET should be set via `wrangler secret put HMAC_SECRET` for signed-url mode
   },
   // Enable Workers Cache; responses are cached according to their Cache-Control headers.

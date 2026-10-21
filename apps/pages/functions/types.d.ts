@@ -4,6 +4,7 @@ interface Env {
   SECURITY_MODE?: string;
   HMAC_SECRET?: string;
   ALLOWED_REFERERS?: string;
+  EXCLUDE_PATHS?: string;
 }
 
 // PagesFunction type for Cloudflare Pages Functions

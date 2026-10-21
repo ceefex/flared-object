@@ -11,10 +11,20 @@ function parseSecurityConfig(env: Env): SecurityConfig {
   } catch {
     console.error("Invalid ALLOWED_REFERERS JSON");
   }
+  let excludePaths: string[] = [];
+  try {
+    if (env.EXCLUDE_PATHS) {
+      excludePaths = JSON.parse(env.EXCLUDE_PATHS);
+    }
+  } catch {
+    console.error("Invalid EXCLUDE_PATHS JSON");
+  }
+
   return {
     mode,
     hmacSecret: env.HMAC_SECRET,
     allowedReferers,
+    excludePaths,
   };
 }
 

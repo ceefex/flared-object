@@ -1,9 +1,11 @@
 import type { SecurityConfig } from "../types/index.js";
 import { validateReferer } from "./referer-guard.js";
 import { validateSignedUrl } from "./signed-url.js";
+import { isPathExcluded } from "./path-matcher.js";
 
 export { validateReferer } from "./referer-guard.js";
 export { validateSignedUrl, generateSignedUrl } from "./signed-url.js";
+export { isPathExcluded } from "./path-matcher.js";
 
 export async function validateRequest(
   request: Request,
@@ -14,6 +16,13 @@ export async function validateRequest(
   }
 
   const url = new URL(request.url);
+
+  // Bypass security validation if request matches any excluded pattern
+  if (config.excludePaths && config.excludePaths.length > 0) {
+    if (isPathExcluded(url.pathname, config.excludePaths)) {
+      return { allowed: true };
+    }
+  }
 
   if (config.mode === "signed-url" || config.mode === "signed-url+referer") {
     if (!config.hmacSecret) {

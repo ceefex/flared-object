@@ -30,6 +30,7 @@ export interface SecurityConfig {
   mode: SecurityMode;
   hmacSecret?: string;
   allowedReferers?: string[];
+  excludePaths?: string[];
 }
 
 export interface ErrorDetail {

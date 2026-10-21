@@ -48,6 +48,7 @@ HTTP Response (Streamed Media or Error Page)
 |------|------|-------------|
 | `SECURITY_MODE` | Variable | `none` \| `signed-url` \| `referer` \| `signed-url+referer` (Default: `none`) |
 | `ALLOWED_REFERERS` | Variable | JSON string array of allowed hosts, e.g. `'["example.com", "*.example.com"]'` |
+| `EXCLUDE_PATHS` | Variable | JSON string array of path wildcard patterns to bypass security check, e.g. `'["*/cover-*", "*/banner-*"]'` |
 | `HMAC_SECRET` | **Secret** | 256-bit hexadecimal string matching client signing key |
 
 #### Setting Secrets with Wrangler CLI
