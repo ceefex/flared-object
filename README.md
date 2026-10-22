@@ -1,8 +1,26 @@
+<div align="center">
+
 # flared-object
 
-> **Edge CDN + Security Gateway** for R2/S3 storage, deployable as Cloudflare Workers or Pages.
+**Edge CDN and Security Gateway for R2 and S3 storage, deployable on Cloudflare Workers and Pages.**
+
+[![TypeScript](https://img.shields.io/badge/Code-TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Cloudflare Workers](https://img.shields.io/badge/Runtime-Cloudflare_Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)](https://workers.cloudflare.com)
+[![Cloudflare Pages](https://img.shields.io/badge/Runtime-Cloudflare_Pages-F38020?style=for-the-badge&logo=cloudflarepages&logoColor=white)](https://pages.cloudflare.com)
+[![Cloudflare R2](https://img.shields.io/badge/Storage-Cloudflare_R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)](https://developers.cloudflare.com/r2)
+[![S3 Compatible](https://img.shields.io/badge/Storage-S3_Compatible-569A31?style=for-the-badge&logo=amazons3&logoColor=white)](https://aws.amazon.com/s3/)
+[![npm](https://img.shields.io/badge/npm-@ceefex/flared--object--client-CB3837?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/@ceefex/flared-object-client)
+[![License: MIT](https://img.shields.io/badge/License-MIT-0D1117?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/ceefex/flared-object)
+
+---
+
+_High-performance media delivery with zero egress fees, HMAC URL signing, and fine-grained hotlink protection._
+
+</div>
+
+---
 
 ## Features
 
